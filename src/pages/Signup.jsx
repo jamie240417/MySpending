@@ -1,18 +1,55 @@
 
-import { Link} from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { register } from '../lib/api/auth';
 
 
 export const Signup = () => {
+const[id, setId] = useState("");
+const[password, setPassword] = useState("");
+const[nickname, setNickname] = useState("");
+const navigate = useNavigate();
+
+const handleRegister = async() => {
+  //유효성검사코드
+
+  //API 호출
+  const response = await register({
+    id: id,
+    password: password,
+    nickname: nickname,
+  });
+  if(response) {
+    alert("회원가입이 완료 되었습니다");
+    navigate("/login");
+  }
+};
+
   return (
       <Container>
 
         <h2 style={{fontSize:"24px"}}>회원가입하기</h2>
         <p>서비스 이용을 위해 로그인해주세요</p>
-      <StInput placeholder='닉네임'></StInput>
-      <StInput placeholder='비밀번호'></StInput>
-      <StInput placeholder='비밀번호 재확인'></StInput>
-      <Button to="/signup">가압하기</Button>
+      <StInput 
+       placeholder='아이디'
+       value={id}
+       type="text"
+      onChange={(e) => setId(e.target.value)}
+      ></StInput>
+      <StInput 
+      placeholder='비밀번호'
+      value={password}
+      type='password'
+      onChange={(e) => setPassword(e.target.value)}
+      ></StInput>
+      <StInput 
+      placeholder='닉네임'
+      value={nickname}
+      type='text'
+      onChange={(e) => setNickname(e.target.value)}
+      ></StInput>
+      <Button onClick={handleRegister}>가입하기</Button>
       <StJoinFooter>
       <StFooterText>
               기존 계정이 있으신가요?
@@ -21,8 +58,8 @@ export const Signup = () => {
             </StJoinFooter>
 
             </Container>
-  )
-}
+  );
+};
 const Button = styled.button`
   height: 48px;
   width:  408px;

@@ -109,9 +109,7 @@ export default function Detail({ expenses, setExpenses }) {
 
   return (
     <Container1>
-      <Header></Header>
     <Container>
-      
       <InputGroup>
         <label htmlFor="date">날짜</label>
         <input

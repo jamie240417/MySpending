@@ -30,7 +30,6 @@ export default function Home({ expenses, setExpenses }) {
   return (
     
     <Container>
-      <Header></Header>
       <MonthNavigation month={month} setMonth={setMonth} />
       <CreateExpense
         month={month}

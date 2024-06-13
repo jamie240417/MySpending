@@ -1,10 +1,32 @@
-import { Link } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { getUserInfo } from '../lib/api/auth';
+import {useEffect} from 'react';
 
 
-const Header = () => {
+const Header = ({setUser}) => {
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    getUserInfo().then((res)=>{
+      if(res) {
+        setUser({
+          userId: res.id,
+          nickname: res.nickname,
+          avatar: res.avatar,
+        });
+      } else {
+        setUser(null);
+        navigate("/sign");
+        localStorage.clear();
+      }
+    });
+  }, []);
+
+
   return (
     <div>    <StHeader>
+      <Outlet/>
     <StContents>
       <StLink to="/">
         My

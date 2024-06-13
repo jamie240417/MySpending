@@ -1,17 +1,47 @@
 
-import { Link} from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
 import { styled } from 'styled-components';
+import { login } from '../lib/api/auth';
 
 
-export const Login = () => {
+export default function Login({ setUser }) {
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); 
+
+  const handleLogin = async () => {
+    try{
+    const { userId, nickname, avator } = await login ({
+      id : id, 
+      password : password,
+    });
+    setUser({ userId, nickname, avator});
+    navigate('/');
+  } catch (error) {
+    console.error('로그인 실패:', error);
+  }
+  };
+
+
   return (
       <Container>
 
         <h2 style={{fontSize:"24px"}}>로그인하기</h2>
         <p>서비스 이용을 위해 로그인해주세요</p>
-      <StInput></StInput>
-      <StInput></StInput>
-      <Button to="/signup">로그인</Button>
+      <StInput 
+      placeholder='아이디'
+       value={id}
+       type="text"
+      onChange={(e) => setId(e.target.value)}
+      ></StInput>
+      <StInput
+      placeholder='비밀번호'
+      value={password}
+      type='password'
+      onChange={(e) => setPassword(e.target.value)}
+      ></StInput>
+      <Button onClick={handleLogin}>로그인</Button>
       <StJoinFooter>
       <StFooterText>
               회원이 아니신가요?
