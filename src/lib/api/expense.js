@@ -31,6 +31,29 @@ export const postExpense = async (newExpense) => {
   } catch(error) {
     alert('에러가 발생했습니다');
     console.log(error)
+  }
+};
 
+export const putExpense = async (updateExpense) => {
+  const {id, ...rest} = updateExpense;
+  try {
+    const {data} = await axios.put(
+      `${JSON_SERVER_HOST}/expenses/${id}`,
+      rest
+    );
+    return data;
+  } catch(error) {
+    alert('에러가 발생했습니다');
+    console.log(error)
+  }
+}
+
+export const deleteExpense = async (id) => {
+  try {
+    const {data} = await axios.delete(`${JSON_SERVER_HOST}/expenses/${id}`);
+    return data;
+  } catch (error) {
+    alert('에러가 발생했습니다');
+    console.log(error);
   }
 };
