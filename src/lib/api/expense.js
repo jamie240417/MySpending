@@ -6,7 +6,7 @@ export const getExpenses = async () => {
   try {
     const response = await axios.get(`${JSON_SERVER_HOST}/expenses`)
     return response.data;
-  } catch(err) {
+  } catch(error) {
     alert("에러");
   }
 };
@@ -14,13 +14,13 @@ export const getExpenses = async () => {
 export const postExpense = async (newExpense) => {
   try {
     const response = await axios.post(
-      `$(JSON_SERVER_HOST)/expenses`,
+      `${JSON_SERVER_HOST}/expenses`,
       newExpense
     );
     return response.data;
-  } catch(err) {
+  } catch(error) {
     alert('에러가 발생했습니다');
-    console.log(err)
+    console.log(error)
 
   }
-}
+};
