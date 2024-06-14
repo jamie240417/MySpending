@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import Header from "../components/Header";
+import { useQuery } from "@tanstack/react-query";
+import {getExpense} from "../../src/lib/api/expense";
 
 const Container1 = styled.div`
   max-width: 800px;
@@ -66,12 +67,27 @@ export default function Detail({ expenses, setExpenses }) {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const selectedExpense = expenses.find((element) => element.id === id);
 
-  const [date, setDate] = useState(selectedExpense.date);
-  const [item, setItem] = useState(selectedExpense.item);
-  const [amount, setAmount] = useState(selectedExpense.amount);
-  const [description, setDescription] = useState(selectedExpense.description);
+  const {
+    data: selectedExpense, 
+    isLoading,
+     error,
+    } = useQuery({queryKey: ["expense", id], queryFn: getExpense});
+
+    console.log(selectedExpense);
+  const [date, setDate] = useState("");
+  const [item, setItem] = useState("");
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    if (selectedExpense){
+      setDate(selectedExpense.data);
+      setItem(selectedExpense.item);
+      setAmount(selectedExpense.amount);
+      setDescription(selectedExpense.description);
+    }
+  },[selectedExpense])
 
   const editExpense = () => {
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;

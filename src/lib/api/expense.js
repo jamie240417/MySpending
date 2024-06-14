@@ -10,6 +10,16 @@ export const getExpenses = async () => {
     alert("에러");
   }
 };
+//
+ 
+export const getExpense = async ({ queryKey }) => {
+  try {
+    const response = await axios.get(`${JSON_SERVER_HOST}/expenses/${queryKey[1]}`)
+    return response.data;
+  } catch(error) {
+    alert("에러");
+  }
+};
 
 export const postExpense = async (newExpense) => {
   try {
