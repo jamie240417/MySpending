@@ -1,8 +1,6 @@
 import axios from "axios";
 
-const AUTH_API_HOST="https://moneyfulpublicpolicy.co.kr"; //api를 연결
-//회원가입과 연결할것이기 때문에 export
-//인풋에서 받아올 내용을 async ()괄호안에 넣는다
+const AUTH_API_HOST="https://moneyfulpublicpolicy.co.kr"; 
 export const register = async ({id, password, nickname}) => {
  //try catch 문
   try{
@@ -50,3 +48,24 @@ export const login = async ({id, password}) => {
     }
   }
  };
+
+ //프로필
+ export const updateProfile = async(formData) => {
+  const accessToken = localStorage.getItem("accessToken");
+  if(accessToken){
+    try {
+      const response = await axios.patch(
+        AUTH_API_HOST + "/profile", 
+      formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      alert(`프로필 변경이 완료되었습니다`);
+      return response.data;
+    } catch (err) {
+      alert (`에러가 발생했습니다`);
+    }
+  }
+ }

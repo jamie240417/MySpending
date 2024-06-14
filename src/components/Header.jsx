@@ -4,7 +4,7 @@ import { getUserInfo } from '../lib/api/auth';
 import {useEffect} from 'react';
 
 
-const Header = ({setUser}) => {
+const Header = ({user, setUser}) => {
   const navigate = useNavigate();
 
   useEffect(()=>{
@@ -17,16 +17,20 @@ const Header = ({setUser}) => {
         });
       } else {
         setUser(null);
-        navigate("/sign");
+        navigate("/login");
         localStorage.clear();
       }
     });
   }, []);
 
+  const handleLogout = () => {
+    setUser(null);
+    navigate("/login");
+    localStorage.clear();
+  }
 
   return (
     <div>    <StHeader>
-      <Outlet/>
     <StContents>
       <StLink to="/">
         My
@@ -34,14 +38,33 @@ const Header = ({setUser}) => {
           <StStrong>Spending</StStrong>
         </StHeading>
       </StLink>
-      <button>프로필</button>
+      <div>
+      <button onClick={handleLogout}>로그아웃</button>
+      <Link to="/profile">
+      <button  to="profile" style={{marginLeft:"5px"}}>프로필
+      </button>
+      </Link>
+      <div>
+      {user && (
+        <>
+        <div src={user.avatar} alt="User Avatar"/>
+        <div>{user.nickname}</div>
+        </>
+      )}
+      </div>
+      </div>
     </StContents>
-  </StHeader></div>
+    
+  </StHeader>
+  <Outlet/>
+  </div>
   );
 };
 
 const StHeader = styled.header`
   height: 118px;
+  width: 800px;
+  margin: 0 auto;
   background-color: var(--color-base-background);
   position: sticky;
   top: 0;

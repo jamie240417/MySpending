@@ -16,6 +16,7 @@ export default function Login({ setUser }) {
       id : id, 
       password : password,
     });
+    alert (`로그인 되었습니다.`)
     setUser({ userId, nickname, avator});
     navigate('/');
   } catch (error) {
